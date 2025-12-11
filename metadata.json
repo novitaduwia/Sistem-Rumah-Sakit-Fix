@@ -1,0 +1,5 @@
+{
+  "name": "Hospital Command Center",
+  "description": "A centralized AI agent system for hospital services that strictly delegates tasks to specialized sub-agents using Gemini API function calling.",
+  "requestFramePermissions": []
+}
