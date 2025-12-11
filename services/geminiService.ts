@@ -74,17 +74,21 @@ export class GeminiService {
   private modelName = "gemini-2.5-flash"; 
 
   constructor() {
-    // Ideally from process.env.API_KEY, but checking existence
-    const apiKey = process.env.API_KEY;
+    // Robust API Key handling for Vercel/Browser environments
+    const apiKey = process.env.API_KEY || '';
+    
     if (!apiKey) {
-      console.warn("API Key missing. App will fail to connect to Gemini.");
+      console.warn("WARN: API Key is missing in process.env.API_KEY. Gemini calls will fail.");
     }
-    this.client = new GoogleGenAI({ apiKey: apiKey || '' });
+    
+    this.client = new GoogleGenAI({ apiKey });
   }
 
   // --- Sub-Agent Brain ---
   // This simulates the Sub-Agent actually "thinking" about the data
   private async generateSubAgentAnalysis(agentType: AgentType, rawData: any, userQuery: string): Promise<string> {
+    if (!process.env.API_KEY) return "Error: API Key missing.";
+
     try {
         const response = await this.client.models.generateContent({
             model: this.modelName,
@@ -168,6 +172,10 @@ export class GeminiService {
     onToolStart: (toolName: string) => void,
     onToolComplete: (result: ToolCallResult, agentType: AgentType) => void
   ) {
+    if (!process.env.API_KEY) {
+        throw new Error("API Key tidak ditemukan. Harap konfigurasi process.env.API_KEY di Vercel.");
+    }
+
     try {
       // 1. Send message to Coordinator
       const result = await this.client.models.generateContent({
