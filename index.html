@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pusat Komando Layanan RS</title>
+    <meta name="description" content="Sistem Agen AI Terintegrasi untuk Layanan Rumah Sakit - Pusat Komando dan Delegasi Tugas">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -28,19 +29,29 @@
         background: #64748b; 
       }
     </style>
-  <script type="importmap">
+    
+    <!-- Process Shim: Mencegah crash jika process.env diakses langsung di browser tanpa build step yang sempurna -->
+    <script>
+      window.process = window.process || { env: {} };
+    </script>
+
+    <!-- Import Map: Memastikan dependensi terload dengan benar di lingkungan tanpa node_modules -->
+    <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.1",
-    "react/": "https://esm.sh/react@^19.2.1/",
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "@google/genai": "https://esm.sh/@google/genai@0.1.1",
+    "lucide-react": "https://esm.sh/lucide-react@0.378.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.559.0"
+    "react/": "https://esm.sh/react@^19.2.1/"
   }
 }
 </script>
-</head>
+  </head>
   <body>
     <div id="root"></div>
+    <!-- Entry Point Script: Wajib ada untuk Vercel/Vite -->
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
